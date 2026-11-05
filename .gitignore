@@ -1,0 +1,14 @@
+# Scratch and debug files
+scratch/
+*.py
+*.tmp
+*.log
+
+# Operating system files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE & Editor folders
+.vscode/
+.idea/
