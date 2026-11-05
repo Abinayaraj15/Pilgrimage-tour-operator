@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <!-- Sacred Gradient matching brand emblem -->
+    <radialGradient id="emblemGlow" cx="48%" cy="46%" r="52%">
+      <stop offset="0%" stop-color="#F2D396"/>
+      <stop offset="35%" stop-color="#D5AD65"/>
+      <stop offset="70%" stop-color="#C78B32"/>
+      <stop offset="100%" stop-color="#542222"/>
+    </radialGradient>
+    <filter id="subtleShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="1.5" stdDeviation="1.5" flood-color="#000000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <!-- Circular Base Disc -->
+  <circle cx="50" cy="50" r="47.5" fill="url(#emblemGlow)" stroke="#F2D396" stroke-width="2.5"/>
+
+  <!-- Inner Concentric Golden Aura Ring -->
+  <circle cx="50" cy="50" r="43.5" fill="none" stroke="#FFF8EC" stroke-width="1.2" stroke-opacity="0.85"/>
+
+  <!-- Temple Spire & Sacred Shikhara Group -->
+  <g filter="url(#subtleShadow)">
+    <!-- Kalasha Finial Needle -->
+    <line x1="50" y1="9" x2="50" y2="15" stroke="#FFF8EC" stroke-width="2.5" stroke-linecap="round"/>
+
+    <!-- Upper Shikhara Spire -->
+    <path d="M50 15 L66 51 L50 46.5 L34 51 Z" fill="#FFF8EC"/>
+
+    <!-- Lower Garbhagriha Base -->
+    <path d="M41.5 48.5 L58.5 48.5 L62.5 83 L37.5 83 Z" fill="#FFF8EC"/>
+
+    <!-- Central Sacred Sun / Bindu -->
+    <circle cx="50" cy="27" r="7.5" fill="#C78B32" stroke="#FFF8EC" stroke-width="1.2"/>
+  </g>
+</svg>
