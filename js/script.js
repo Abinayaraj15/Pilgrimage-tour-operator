@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initHoverVideoPreviews();
   initGalleryLightbox();
   initContactPageParams();
+  initBlogPage();
 });
 
 /* --------------------------------------------------------------------------
@@ -71,15 +72,14 @@ function initThemeAndRTL() {
 
   function applyRTL(dir) {
     html.setAttribute('dir', dir);
+    const label = dir === 'rtl' ? 'Switch to LTR layout' : 'Switch to RTL layout';
     rtlBtns.forEach(btn => {
       const textSpan = btn.querySelector('.rtl-name');
-      const icon = btn.querySelector('i');
       if (textSpan) {
         textSpan.textContent = dir === 'rtl' ? 'LTR' : 'RTL';
       }
-      if (icon) {
-        icon.className = dir === 'rtl' ? 'fas fa-align-left' : 'fas fa-align-right';
-      }
+      btn.setAttribute('title', label);
+      btn.setAttribute('aria-label', label);
     });
   }
 }
@@ -1044,3 +1044,411 @@ function initContactPageParams() {
     }
   });
 }
+
+/* --------------------------------------------------------------------------
+   15. SACRED TRAILS JOURNAL / BLOG INTERACTIONS
+   -------------------------------------------------------------------------- */
+function initBlogPage() {
+  const grid = document.getElementById('blogArticleGrid');
+  if (!grid) return;
+
+  const ARTICLES = {
+    'featured-chardham': {
+      category: 'Himalayan Yatras',
+      title: '2026–2027 Char Dham Yatra Blueprint: Opening Dates, Helicopter Logistics & Acclimatization Science',
+      date: 'November 2026',
+      readTime: '8 Min Read',
+      author: 'Pandit Harishankar Sharma',
+      role: 'Chief Yatra Acharya, Haridwar HQ',
+      avatar: 'images/advisors/pandit-sharma.jpg',
+      image: 'images/gallery/kedarnath-snow.jpg',
+      fallbackImage: 'images/destinations/kedarnath.jpg',
+      packageTitle: 'Sampurna Char Dham Maha Yatra',
+      itineraryHref: 'itineraries.html#circuit-chardham',
+      paragraphs: [
+        'Every Akshaya Tritiya, the sacred portals of Yamunotri and Gangotri open amid Vedic conch shells and Himalayan snowmelt, followed days later by Kedarnath and Badrinath. For devotees planning the 2026–2027 Chota Char Dham pilgrimage, timing and graded elevation pacing are the difference between an exhausting dash and a deeply serene spiritual communion.',
+        'Traditional Shastra prescribes the clockwise Dakshinavarta order: beginning with Yamunotri (3,291 m), bowing at Gangotri (3,100 m), ascending to Lord Shiva at Kedarnath (3,583 m), and completing the circuit with Lord Vishnu at Badrinath (3,300 m). Each shrine carries a distinct elemental energy — from hot thermal Surya Kund springs at Yamunotri to the tranquil Alaknanda confluence beside Neelkanth Peak.',
+        'From a medical standpoint, atmospheric oxygen drops nearly 35% above 3,000 meters. Our expedition directors mandate a restorative night halt at Guptkashi or Barkot (1,300 m–1,500 m) before ascending to Kedarnath, paired with warm cardamom-tulsi hydration and morning/evening pulse oximeter tracking so elders travel safely.'
+      ],
+      takeaways: [
+        'Follow the auspicious Yamunotri → Gangotri → Kedarnath → Badrinath clockwise circuit order.',
+        'Pre-register mandatory Uttarakhand Yatra Biometric passes at least 45 days ahead of May/June departures.',
+        'Combine road comfort with Phata/Sersi helicopter transfers when accompanying senior parents above age 65.'
+      ],
+      relatedIds: ['elderly-altitude', 'kedarnath-helicopter']
+    },
+    'jyotirlinga-axis': {
+      category: 'Vedic Rituals',
+      title: "The Spiritual Geometry of India's 12 Sacred Jyotirlingas: Pillars of Infinite Light",
+      date: 'November 2026',
+      readTime: '7 Min Read',
+      author: 'Acharya Vedprakash Shastri',
+      role: 'Senior Kashi Vedic Scholar',
+      avatar: 'images/advisors/acharya-shastri.jpg',
+      image: 'images/packages/jyotirlinga.jpg',
+      fallbackImage: 'images/destinations/varanasi.jpg',
+      packageTitle: '12 Jyotirlinga Maha Parikrama',
+      itineraryHref: 'itineraries.html#circuit-jyotirlinga',
+      paragraphs: [
+        'Unlike ordinary Shiva shrines consecrated by human hands, the Dwadasa Jyotirlingas mark twelve sovereign sites across Bharat where Shiva manifested directly as an infinite pillar of radiant light (Jyoti). From Somnath touching the Arabian Sea to Rameswaram facing the Bay of Bengal, they trace a vast spiritual meridian across the subcontinent.',
+        'Understanding the distinct regional rituals enriches every darshan. At Mahakaleshwar in Ujjain — the only south-facing Dakshinamurti Jyotirlinga — devotees witness the sacred pre-dawn Bhasma Aarti, whereas at Kashi Vishwanath and Trimbakeshwar, Bilva Patra and Rudrabhishek chantings follow centuries-old Dashanami traditions.',
+        'We structure our Parikramas in harmonious geographic clusters (Gujarat Coastal, Central Narmada-Malwa, Maharashtra Sahyadri, and Himalayan-Kashi-Southern legs) so devotees experience unhurried Rudrabhishek pujas rather than hurried highway transit.'
+      ],
+      takeaways: [
+        'Carry pure Gangajal from Haridwar or Varanasi for traditional abhishek at Rameswaram Jyotirlinga.',
+        'Reserve Mahakaleshwar Bhasma Aarti and Somnath evening light-and-sound slots 30 days prior.',
+        'Observe simple Satvik light meals before early-morning Panchamrit Abhishek rituals.'
+      ],
+      relatedIds: ['kashi-moksha-triangle', 'muhurta-calendar']
+    },
+    'arupadai-veedu': {
+      category: 'South Temples',
+      title: "Arupadai Veedu: Decoding Lord Murugan's Six Ancient Warrior Abodes",
+      date: 'October 2026',
+      readTime: '6 Min Read',
+      author: 'Dr. Meenakshi Swaminathan',
+      role: 'Agama Architecture & Heritage Advisor',
+      avatar: 'images/advisors/dr-swaminathan.jpg',
+      image: 'images/destinations/tiruchendur-murugan.jpg',
+      fallbackImage: 'images/packages/murugan-arupadaiveedu.jpg',
+      packageTitle: 'Arupadai Veedu - 6 Abodes of Murugan',
+      itineraryHref: 'itineraries.html#circuit-south',
+      paragraphs: [
+        'Sangam Tamil literature celebrates six hallowed battlefields and hill sanctuaries — Arupadai Veedu — where Lord Kartikeya (Murugan) bestowed grace upon his devotees and vanquished inner ignorance. Together, Thirupparankundram, Tiruchendur, Palani, Swamimalai, Thiruthani, and Pazhamudircholai form one of South India’s most spiritually electrifying circuits.',
+        'Notice how five of the six shrines crown sacred hills (Kurinji), while Tiruchendur uniquely stands right beside the roaring ocean waves (Neithal), where legend holds the sea itself respectfully withdrew to offer sanctum space. Each temple follows strict Agama Shastra worship timetables.',
+        'At Palani Dhandayuthapani, elders can conveniently ascend via winch train or rope car rather than climbing all 659 stone steps, while devotees can partake in sacred Panchamritam prasadam prepared with hill bananas, jaggery, and pure ghee.'
+      ],
+      takeaways: [
+        'Dress in traditional Tamil attire (cotton/silk dhoti with angavastram or saree/salwar) for sanctum entry.',
+        'Pre-book Palani Hill winch passes to ensure zero stair fatigue for senior devotees.',
+        'Plan dawn visits at Tiruchendur for tranquil sea-shore Naazhi Kinaru sacred bath.'
+      ],
+      relatedIds: ['tirupati-etiquette', 'satvik-fasting']
+    },
+    'elderly-altitude': {
+      category: 'Senior Care',
+      title: 'High-Altitude Yatra Guide for Elderly Parents: SpO2 Monitoring, Palkis & Gentle Pacing',
+      date: 'October 2026',
+      readTime: '6 Min Read',
+      author: 'Capt. Vikramaditya Rawat (Retd.)',
+      role: 'Himalayan Logistics & Medical Chief',
+      avatar: 'images/advisors/capt-rawat.jpg',
+      image: 'images/destinations/badrinath.jpg',
+      fallbackImage: 'images/destinations/kedarnath.jpg',
+      packageTitle: 'Char Dham Luxury Yatra by Helicopter',
+      itineraryHref: 'itineraries.html#circuit-chardham',
+      paragraphs: [
+        'Fulfilling our parents’ lifelong dream of bowing at Kedarnath and Badrinath is one of life’s greatest acts of filial devotion. Yet taking seniors above 10,000 feet requires genuine mountain medicine, realistic daily driving caps, and respectful logistical planning.',
+        'Our clinical protocol centers on three pillars: slow vertical gain (never jumping over 600 meters of sleeping elevation per day), proactive hydration of 3.5 liters of warm fluid daily, and twice-daily pulse oximeter SpO2 checks logged by trained tour managers.',
+        'At Yamunotri (6 km climb) and Kedarnath (16 km trail), we pre-arrange certified Pitthu, Palki bearers, or direct helipad transfers — and every vehicle carries medical-grade portable oxygen cylinders and warm woollen blankets.'
+      ],
+      takeaways: [
+        'Complete a basic resting ECG, blood pressure, and physician fitness clearance 3 weeks prior.',
+        'Never skip afternoon rest halts during mountain ascent days.',
+        'Keep warm thermal socks, windproof gloves, and prescribed daily medications in a handy daypack.'
+      ],
+      relatedIds: ['featured-chardham', 'kedarnath-helicopter']
+    },
+    'kashi-moksha-triangle': {
+      category: 'Vedic Rituals',
+      title: 'Kashi, Prayagraj & Ayodhya: Walking the Sacred Moksha Triangle',
+      date: 'October 2026',
+      readTime: '5 Min Read',
+      author: 'Acharya Vedprakash Shastri',
+      role: 'Senior Kashi Vedic Scholar',
+      avatar: 'images/advisors/acharya-shastri.jpg',
+      image: 'images/gallery/ganga-aarti.jpg',
+      fallbackImage: 'images/destinations/varanasi.jpg',
+      packageTitle: 'Kashi, Prayagraj & Ayodhya Ram Mandir',
+      itineraryHref: 'itineraries.html#circuit-kashi',
+      paragraphs: [
+        'Few journeys awaken the heart as deeply as the sacred North Indian triangle uniting Prayagraj (Tirtharaj), Varanasi (Kashi), and Ayodhya Dham. Within six harmonious days, devotees bathe at the mystic confluence of Ganga, Yamuna, and Saraswati before offering prayers at Kashi Vishwanath and Shri Ram Janmabhoomi.',
+        'In Prayagraj, early morning boat rides reach the quiet mid-stream sandbar of Triveni Sangam for Vedic Sankalp and Pitru Tarpan. Travelling onward to Varanasi reveals the newly expanded Kashi Vishwanath Corridor leading directly from Lalita Ghat to the golden sanctum.',
+        'Concluding along the tranquil Saryu banks in Ayodhya lets families witness evening Saryu Aarti followed by peaceful morning darshan of Ram Lalla and Hanuman Garhi.'
+      ],
+      takeaways: [
+        'Experience Dashashwamedh Ganga Aarti from a reserved private wooden Bajra boat for unobstructed views.',
+        'Carry soft cotton change wear for the sacred Triveni Sangam dip in Prayagraj.',
+        'Schedule Ayodhya Ram Mandir slots early morning when queue movement is calmest.'
+      ],
+      relatedIds: ['jyotirlinga-axis', 'muhurta-calendar']
+    },
+    'tirupati-etiquette': {
+      category: 'South Temples',
+      title: 'Tirupati Balaji Seeghra Darshan & Dress Code: Complete Step-by-Step Devotee Etiquette',
+      date: 'September 2026',
+      readTime: '5 Min Read',
+      author: 'Dr. Meenakshi Swaminathan',
+      role: 'Agama Architecture & Heritage Advisor',
+      avatar: 'images/advisors/dr-swaminathan.jpg',
+      image: 'images/destinations/tirupati.jpg',
+      fallbackImage: 'images/packages/tirupati-special.jpg',
+      packageTitle: 'Tirupati Balaji VIP Seeghra Darshan',
+      itineraryHref: 'itineraries.html#circuit-tirupati',
+      paragraphs: [
+        'Lord Venkateswara’s seven-hill abode at Tirumala welcomes tens of thousands of pilgrims daily with extraordinary devotion and meticulous queue organization. Preparing in advance ensures your spiritual focus remains solely on Govinda’s darshan rather than administrative surprises.',
+        'TTD strictly enforces traditional dress rules for Special Entry (Seeghra Darshan) and Arjitha Seva devotees: men are expected in white Dhoti/Pancha with upper cloth or Kurta-Pyjama, and women in Saree, half-saree, or Salwar Kameez with Dupatta. Denim, shorts, and T-shirts are barred.',
+        'Always visit Sri Padmavathi Ammavari Temple in Tiruchanur before ascending Tirumala, carry the exact original Aadhaar/Passport ID used during ticket booking, and deposit mobile phones at designated security counters prior to Vaikuntam Queue Complex entry.'
+      ],
+      takeaways: [
+        'Always carry the original government photo ID matched to your Seeghra Darshan token.',
+        'Complete Sri Padmavathi Ammavari darshan in Tiruchanur and Varaha Swamy darshan beside Swami Pushkarini.',
+        'Pre-order authentic Tirupati Laddu prasadam vouchers along with your darshan slot.'
+      ],
+      relatedIds: ['arupadai-veedu', 'satvik-fasting']
+    },
+    'kedarnath-helicopter': {
+      category: 'Himalayan Yatras',
+      title: 'Kedarnath & Do Dham Helicopter Yatra: Weather Windows, Bag Weight & Safety Norms',
+      date: 'September 2026',
+      readTime: '5 Min Read',
+      author: 'Capt. Vikramaditya Rawat (Retd.)',
+      role: 'Himalayan Logistics & Medical Chief',
+      avatar: 'images/advisors/capt-rawat.jpg',
+      image: 'images/packages/helicopter-yatra.jpg',
+      fallbackImage: 'images/destinations/kedarnath.jpg',
+      packageTitle: 'Do Dham Yatra by Helicopter',
+      itineraryHref: 'itineraries.html#circuit-dndham',
+      paragraphs: [
+        'Chartered mountain aviation makes Kedarnath and Badrinath accessible in a serene 2-to-4-day schedule — sparing elders the taxing 16-kilometer Gaurikund trek while opening unforgettable aerial panoramas of Garhwal glaciers.',
+        'Because Mandakini Valley wind currents build after midday, shuttle sorties run predominantly between 06:00 AM and 11:30 AM. Building a buffer evening at Dehradun or Guptkashi guarantees calm re-scheduling if high mountain clouds roll in unexpectedly.',
+        'DGCA aviation rules restrict passenger cabin baggage on hill choppers strictly to 5 kg soft duffel bags per person (hard trolley suitcases remain safely stored at our Dehradun/Phata base hotel).'
+      ],
+      takeaways: [
+        'Pack a soft 5 kg duffel bag per devotee for helicopter flights; leave heavy suitcases at base hotel.',
+        'Report exact passenger body weight at booking time for helicopter load-balance compliance.',
+        'Keep a windproof outer shell handy — Kedarnath helipad temperatures sit near 2°C–6°C at dawn.'
+      ],
+      relatedIds: ['featured-chardham', 'elderly-altitude']
+    },
+    'muhurta-calendar': {
+      category: 'Festivals & Muhurtas',
+      title: 'Auspicious Muhurtas 2026–2027: Dev Deepawali, Maha Shivratri & Puri Ratha Yatra',
+      date: 'August 2026',
+      readTime: '6 Min Read',
+      author: 'Pandit Harishankar Sharma',
+      role: 'Chief Yatra Acharya, Haridwar HQ',
+      avatar: 'images/advisors/pandit-sharma.jpg',
+      image: 'images/gallery/diya-floating.jpg',
+      fallbackImage: 'images/gallery/ganga-aarti.jpg',
+      packageTitle: 'Kashi, Prayagraj & Ayodhya Ram Mandir',
+      itineraryHref: 'itineraries.html#circuit-kashi',
+      paragraphs: [
+        'Pilgrimage during sacred tithis amplifies communal bhakti across every ghat and temple courtyard. On Kartik Purnima (Dev Deepawali), all 84 ghats of Varanasi glow under over a million earthen diyas as celestial chants echo over the Ganga.',
+        'Equally revered are Maha Shivratri at Ujjain & Kashi, Akshaya Tritiya opening celebrations across Uttarakhand, Shravan Somwar Monday abhisheks across all Jyotirlingas, and the summer Jagannath Ratha Yatra along Puri’s Grand Road.',
+        'Because festival crowds surge months ahead, our Vedic planning desk reserves heritage river-facing rooms, boat charters, and official shrine passes up to 120 days prior to the muhurta.'
+      ],
+      takeaways: [
+        'Reserve Dev Deepawali Varanasi boat views and Ratha Yatra Puri balconies 3–4 months early.',
+        'Align Ekadashi & Purnima stays with pure temple-prasad dining windows.',
+        'Consult our Acharya desk to match your family Janma Nakshatra with auspicious yatra start dates.'
+      ],
+      relatedIds: ['kashi-moksha-triangle', 'jyotirlinga-axis']
+    },
+    'satvik-fasting': {
+      category: 'Vedic Rituals',
+      title: 'Satvik Temple Cuisine & Fasting Nutrition During Multi-Day Sacred Pilgrimages',
+      date: 'August 2026',
+      readTime: '4 Min Read',
+      author: 'Pandit Harishankar Sharma',
+      role: 'Chief Yatra Acharya, Haridwar HQ',
+      avatar: 'images/advisors/pandit-sharma.jpg',
+      image: 'images/gallery/pilgrims-prayer.jpg',
+      fallbackImage: 'images/gallery/golden-temple.jpg',
+      packageTitle: 'Grand South India Temple Circuit',
+      itineraryHref: 'itineraries.html#circuit-south',
+      paragraphs: [
+        'Ayurvedic wisdom teaches that food shapes the clarity of the mind during prayer. True Satvik yatra dining avoids onion, garlic, excessive chillies, and stale leftovers, favoring freshly cooked warm moong dal, rock salt, cow ghee, seasonal vegetables, and temple Annadanam.',
+        'When traveling across climate zones — from cold Kedarnath valleys to humid Tamil Nadu temple courtyards — steady energy prevents fatigue during long darshan walks. Roasted makhana, soaked almonds, buttermilk in the plains, and hot ginger-tulsi decoctions in the hills keep digestion light.',
+        'Our dedicated yatra kitchens also prepare Ekadashi phalahar (kuttu, sabudana, fresh fruits) and strict Jain menus without root vegetables upon prior request.'
+      ],
+      takeaways: [
+        'Favor warm, freshly cooked Satvik meals over heavy fried roadside snacks during transit days.',
+        'Inform our Yatra Coordinator during booking for Jain, diabetic-friendly, or Ekadashi fasting meals.',
+        'Carry simple roasted dry fruits and warm herbal water between early morning temple darshans.'
+      ],
+      relatedIds: ['elderly-altitude', 'arupadai-veedu']
+    }
+  };
+
+  const cards = Array.from(grid.querySelectorAll('.blog-card'));
+  const chips = document.querySelectorAll('.blog-chip');
+  const searchInput = document.getElementById('blogSearchInput');
+  const countBadge = document.getElementById('blogCountBadge');
+  const emptyState = document.getElementById('blogEmptyState');
+  const resetBtn = document.getElementById('blogResetBtn');
+  const tagPills = document.querySelectorAll('.blog-tag-pill');
+
+  let activeCat = 'all';
+  let searchQuery = '';
+
+  function filterBlog() {
+    let visible = 0;
+    const q = searchQuery.trim().toLowerCase();
+
+    cards.forEach(card => {
+      const cat = (card.getAttribute('data-category') || '').toLowerCase();
+      const tags = (card.getAttribute('data-tags') || '').toLowerCase();
+      const text = card.textContent.toLowerCase();
+
+      const catMatch = activeCat === 'all' || cat === activeCat;
+      const searchMatch = !q || text.includes(q) || tags.includes(q) || cat.includes(q);
+
+      if (catMatch && searchMatch) {
+        card.style.display = 'flex';
+        visible++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    if (countBadge) {
+      countBadge.textContent = `Showing ${visible} Sacred Article${visible === 1 ? '' : 's'}`;
+    }
+    if (emptyState) {
+      emptyState.style.display = visible === 0 ? 'block' : 'none';
+    }
+  }
+
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      chips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      activeCat = (chip.getAttribute('data-blog-cat') || 'all').toLowerCase();
+      filterBlog();
+    });
+  });
+
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      searchQuery = e.target.value;
+      filterBlog();
+    });
+  }
+
+  if (resetBtn) {
+    resetBtn.addEventListener('click', () => {
+      activeCat = 'all';
+      searchQuery = '';
+      if (searchInput) searchInput.value = '';
+      chips.forEach(c => c.classList.remove('active'));
+      const allChip = document.querySelector('.blog-chip[data-blog-cat="all"]');
+      if (allChip) allChip.classList.add('active');
+      filterBlog();
+    });
+  }
+
+  tagPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      const tagVal = pill.getAttribute('data-tag-search') || pill.textContent.trim();
+      if (searchInput) {
+        searchInput.value = tagVal;
+        searchQuery = tagVal;
+      }
+      activeCat = 'all';
+      chips.forEach(c => c.classList.remove('active'));
+      const allChip = document.querySelector('.blog-chip[data-blog-cat="all"]');
+      if (allChip) allChip.classList.add('active');
+      filterBlog();
+      grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  // Article Reader Modal logic
+  const readerModal = document.getElementById('articleReaderModal');
+  function openArticleReader(articleId) {
+    const art = ARTICLES[articleId];
+    if (!art || !readerModal) return;
+
+    const catEl = readerModal.querySelector('#readerCategory');
+    const titleEl = readerModal.querySelector('#readerTitle');
+    const metaEl = readerModal.querySelector('#readerMeta');
+    const imgEl = readerModal.querySelector('#readerHeroImg');
+    const authorImg = readerModal.querySelector('#readerAuthorImg');
+    const authorName = readerModal.querySelector('#readerAuthorName');
+    const authorRole = readerModal.querySelector('#readerAuthorRole');
+    const proseEl = readerModal.querySelector('#readerProse');
+    const takeawaysEl = readerModal.querySelector('#readerTakeaways');
+    const pkgLabel = readerModal.querySelector('#readerRelatedPkg');
+    const itinLink = readerModal.querySelector('#readerItineraryLink');
+    const bookBtn = readerModal.querySelector('#readerBookBtn');
+    const relatedLinksBox = readerModal.querySelector('#readerRelatedArticles');
+
+    if (catEl) catEl.textContent = art.category;
+    if (titleEl) titleEl.textContent = art.title;
+    if (metaEl) metaEl.innerHTML = `<span><i class="fas fa-calendar-alt"></i> ${art.date}</span> <span><i class="far fa-clock"></i> ${art.readTime}</span>`;
+    if (imgEl) {
+      imgEl.src = art.image;
+      imgEl.alt = art.title;
+      imgEl.onerror = () => { imgEl.src = art.fallbackImage; };
+    }
+    if (authorImg) authorImg.src = art.avatar;
+    if (authorName) authorName.textContent = art.author;
+    if (authorRole) authorRole.textContent = art.role;
+    if (proseEl) {
+      proseEl.innerHTML = art.paragraphs.map(p => `<p>${p}</p>`).join('');
+    }
+    if (takeawaysEl) {
+      takeawaysEl.innerHTML = art.takeaways.map(t => `<li><i class="fas fa-check-circle"></i> <span>${t}</span></li>`).join('');
+    }
+    if (pkgLabel) pkgLabel.textContent = art.packageTitle;
+    if (itinLink) itinLink.href = art.itineraryHref;
+    if (bookBtn) {
+      bookBtn.setAttribute('data-package', art.packageTitle);
+    }
+
+    if (relatedLinksBox && art.relatedIds) {
+      relatedLinksBox.innerHTML = art.relatedIds.map(rid => {
+        const r = ARTICLES[rid];
+        if (!r) return '';
+        return `<button type="button" class="blog-tag-pill reader-switch-btn" data-article-id="${rid}"><i class="fas fa-book-open" style="color:var(--color-saffron); margin-right:4px;"></i> ${r.title}</button>`;
+      }).join('');
+
+      relatedLinksBox.querySelectorAll('.reader-switch-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          openArticleReader(btn.getAttribute('data-article-id'));
+          readerModal.querySelector('.modal-dialog')?.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      });
+    }
+
+    openModal(readerModal);
+  }
+
+  document.querySelectorAll('[data-open-article]').forEach(trigger => {
+    trigger.addEventListener('click', () => {
+      const id = trigger.getAttribute('data-open-article');
+      openArticleReader(id);
+    });
+  });
+
+  // Allow Reader "Book This Yatra" button to smoothly transition into Booking Modal
+  const readerBookBtn = document.getElementById('readerBookBtn');
+  if (readerBookBtn && readerModal) {
+    readerBookBtn.addEventListener('click', () => {
+      closeModal(readerModal);
+    });
+  }
+
+  // Newsletter subscription handler
+  const newsletterForm = document.getElementById('blogNewsletterForm');
+  const newsletterMsg = document.getElementById('blogNewsletterMsg');
+  if (newsletterForm && newsletterMsg) {
+    newsletterForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const emailInput = newsletterForm.querySelector('input[type="email"]');
+      const val = emailInput ? emailInput.value.trim() : '';
+      if (!val || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) {
+        newsletterMsg.style.color = '#FFD8A8';
+        newsletterMsg.textContent = 'Please enter a valid email address to receive Yatra Advisories.';
+        return;
+      }
+      newsletterMsg.style.color = '#E7C687';
+      newsletterMsg.innerHTML = '<i class="fas fa-check-circle"></i> Dhanyawad! Subscribed for 2026–2027 temple opening dates &amp; muhurta updates.';
+      newsletterForm.reset();
+    });
+  }
+
+  filterBlog();
+}
+

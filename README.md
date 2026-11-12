@@ -39,6 +39,7 @@ A premium, production-ready website for **Sacred Trails**, India's premier devot
 ├── home-2.html             # Royal Heritage Home (Live weather, 18-package grid, festival calendar)
 ├── tour-packages.html      # Tour Packages Directory (Filter chips, search, 3-tier comparison matrix)
 ├── itineraries.html        # Day-by-Day Itineraries (Circuit tabs, daily rhythm, altitude guidelines)
+├── blog.html               # Sacred Journal & Yatra Chronicles (Interactive reader, search, related guides)
 ├── about.html              # About Sacred Mission (Advisory board, acharyas, safety protocols)
 ├── contact.html            # Contact & Helpdesk (Interactive Haridwar HQ map, regional offices, enquiry form)
 ├── css/
